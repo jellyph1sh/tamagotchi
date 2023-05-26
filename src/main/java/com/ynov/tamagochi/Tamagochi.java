@@ -7,17 +7,21 @@ public abstract class Tamagochi {
     private Integer hasAlreadyPlayed = 0;
     protected Integer timeStamp = 1;
     private Integer hunger = 5;
+    private Boolean isDirty = false;
     
     abstract void GrowUp();
 
-    public void Eat() {
+    protected void Eat() {
         this.hasEaten = true;
         System.out.println("Your tamagochi has eaten");
     };
 
-    public void Play(){
+    protected void Play(){
         if (this.hasAlreadyPlayed < 3) {
             this.happiness += 3;
+            if(this.happiness > 50){
+                this.happiness = 50;
+            }
             this.hasAlreadyPlayed ++;
             System.out.println("You played with your tamagochi");
         } else {
@@ -25,10 +29,25 @@ public abstract class Tamagochi {
         }
     }
 
-    public void Live() {
+    protected void CleanUp(){
+        if (isDirty){
+            this.isDirty = false;
+            System.out.println("The tamagotchi is clean");
+        } else{
+            System.out.println("LThe tamagotchi is already clean");
+        }
+    }
+
+    public Boolean Live() {
         if (this.hasEaten == false) {
             this.happiness -= this.hunger ;
             this.hunger += 5;
+            if(this.happiness <=0){
+                return false;
+            }
+        } else {
+            this.isDirty = true;
         }
+        return true;
     };
 }
