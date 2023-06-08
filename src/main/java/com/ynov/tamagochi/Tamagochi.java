@@ -15,6 +15,24 @@ public abstract class Tamagochi {
 
     abstract void GrowUp();
 
+    public Integer getLifetime(){
+        return lifetime;
+    }
+
+    public Integer getHappiness(){
+        return happiness;
+    }
+
+    public Integer getHunger(){
+        return hunger;
+    }
+    public Boolean getHasEaten(){
+        return hasEaten;
+    }
+
+    public Boolean getIsDirty(){
+        return isDirty;
+    }
     protected void Eat() {
         this.hasEaten = true;
         System.out.println("Your tamagochi has eaten");
