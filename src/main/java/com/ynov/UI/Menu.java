@@ -24,7 +24,7 @@ public class Menu {
 
     public Menu(Stage stage) {
         this.stage = stage;
-        this.tamImg = "oldMan";
+        this.tamImg = "adult";
     }    
 
     public void ShowMenus() {
@@ -108,8 +108,10 @@ public class Menu {
         tamagochiBox.getStyleClass().add("tamagochiBox");
         if ("oldMan".equals(this.tamImg)) {
             tamagochiBox.relocate(-30, 50);
+        } else if ("baby".equals(this.tamImg)) {
+            tamagochiBox.relocate(190, 220);
         } else {
-            tamagochiBox.relocate(130, 150);
+            tamagochiBox.relocate(170, 190);
         }
 
         Image tamagochiImage = new Image(getClass().getResource("img/"+this.tamImg+".png").toExternalForm());
