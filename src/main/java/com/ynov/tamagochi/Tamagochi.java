@@ -4,11 +4,15 @@ public abstract class Tamagochi {
     protected Boolean hasEaten = false;
     protected Integer lifetime = 0;
     protected Integer happiness = 15;
-    private Integer hasAlreadyPlayed = 0;
-    protected Integer timeStamp = 1;
-    private Integer hunger = 5;
-    private Boolean isDirty = false;
+    protected Integer hasAlreadyPlayed = 0;
+    protected Integer unitTime = 1;
+    protected Integer hunger = 5;
+    protected Boolean isDirty = false;
     
+    Tamagochi(Integer unitTime){
+        this.unitTime = unitTime;
+    }
+
     abstract void GrowUp();
 
     protected void Eat() {

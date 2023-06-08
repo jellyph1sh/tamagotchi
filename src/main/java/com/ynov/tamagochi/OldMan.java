@@ -4,6 +4,9 @@ import java.util.Random;
 
 public class OldMan extends Tamagochi{
     protected Boolean isSick = false;
+    OldMan(Integer unitTime){
+        super(unitTime);
+    }
     @Override
     protected void GrowUp(){
         System.out.println("Die");

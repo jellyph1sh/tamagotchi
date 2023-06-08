@@ -1,7 +1,9 @@
 package com.ynov.tamagochi;
 
 public class Egg extends Tamagochi{ 
-
+  Egg(Integer unitTime){
+    super(unitTime);
+  }
   @Override
   protected void Eat() {
     System.out.println("Eggs doesn't eat");
