@@ -1,0 +1,13 @@
+.tamagochiBox {
+    -fx-alignment:center;
+}
+
+.stats {    
+    -fx-display:flex;
+    -fx-justify-content:center;
+    -fx-alignment:center;
+}
+
+.box {
+    -fx-padding:10;
+}
