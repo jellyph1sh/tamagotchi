@@ -11,3 +11,19 @@
 .box {
     -fx-padding:10;
 }
+
+.menu {
+    -fx-background-color: #32566f;
+    -fx-border-radius: 15px;
+    -fx-background-radius: 15px;   
+    -fx-alignment:center;
+}
+
+.button {
+    -fx-background-color: #F8B33E;
+    -fx-alignment:center;
+}
+
+.test {
+    -fx-background-color:red;
+}
