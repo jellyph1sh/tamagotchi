@@ -7,6 +7,7 @@ public class OldMan extends Tamagochi {
     protected Boolean isSick = false;
     public OldMan(Integer unitTime) {
         super(unitTime);
+        this.Live();
     }
 
     @Override
@@ -29,8 +30,13 @@ public class OldMan extends Tamagochi {
         this.baseTimestamp = Instant.now().toEpochMilli();
         while (isAlive && !isGrowing) {
             this.lifetime = Instant.now().toEpochMilli();
+            if (this.happiness <= 0) {
+                this.isAlive = false;
+                System.out.println("He died from sadness!");
+            }
             if (isSick){
                 isAlive = false;
+                System.out.println("He died from sick!");
             }
             Random rand = new Random();
             int randomNumber = rand.nextInt(2);

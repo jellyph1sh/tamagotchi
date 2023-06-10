@@ -26,7 +26,7 @@ public class Egg extends Tamagochi{
     return new Child(this.unitTime, this.hunger, this.happiness);
   }
 
-  protected void Live() {
+  public void Live() {
     Boolean isGrowing = false;
     this.baseTimestamp = Instant.now().toEpochMilli();
     while (isAlive && !isGrowing) {

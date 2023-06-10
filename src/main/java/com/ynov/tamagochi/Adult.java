@@ -7,6 +7,7 @@ public class Adult extends Tamagochi{
         super(unitTime);
         this.hunger = hunger;
         this.happiness = happiness;
+        this.Live();
     }
 
     @Override
@@ -20,6 +21,10 @@ public class Adult extends Tamagochi{
         this.baseTimestamp = Instant.now().toEpochMilli();
         while (isAlive && !isGrowing) {
             this.lifetime = Instant.now().toEpochMilli();
+            if (this.happiness <= 0) {
+                this.isAlive = false;
+                System.out.println("He died from sadness!");
+            }
             if (((this.lifetime/1000*this.unitTime) - (this.baseTimestamp/1000*this.unitTime)) >= 15) {
                 this.GrowUp();
                 isGrowing = true;
