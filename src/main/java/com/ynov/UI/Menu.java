@@ -21,6 +21,8 @@ import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
 
+import com.ynov.UI.games.Play;
+
 public class Menu {
     private String currentMenu = "home";
     private Stage stage;
@@ -131,7 +133,6 @@ public class Menu {
         });
         /*  <-------------------------------------->  */
         
-
         mainVbox.getChildren().addAll(background, tamagochiBox, statsBox, pc);
         /*------------------------------------------- */
         Scene mainScene = new Scene(mainVbox, 400, 400);
@@ -172,8 +173,11 @@ public class Menu {
         play.setPrefSize(100, 50);
         play.onMouseClickedProperty().set((e) -> {
             this.currentMenu = "play";
-            Play game = new Play(); 
-            game.showGame(stage);
+            PlayView gameView = new PlayView();
+            Play game = new Play();
+            System.out.print("WOOOOOOOOOOOOW");
+            gameView.run(stage);
+            game.run();
         });
 
         HBox eat = new HBox();
