@@ -30,6 +30,7 @@ public class Egg extends Tamagochi{
   }
 
   public Tamagochi Live()  {
+    this.lifetime++;
     return this.GrowUp();
   }
 }

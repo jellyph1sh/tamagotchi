@@ -1,8 +1,10 @@
 package com.ynov.tamagochi;
 
+import java.io.Serializable;
+
 import com.ynov.UI.Menu;
 
-public abstract class Tamagochi extends Thread{
+public abstract class Tamagochi extends Thread implements Serializable{
     protected Boolean hasEaten = false;
     protected long baseTimestamp;
     protected long lifetime;
@@ -11,7 +13,7 @@ public abstract class Tamagochi extends Thread{
     protected long unitTime = 1;
     protected Integer hunger = 5;
     protected Boolean isDirty = false;
-    protected Boolean isAlive = true;
+    public Boolean isAlive = true;
     public String status;
     
     Tamagochi(long unitTime){

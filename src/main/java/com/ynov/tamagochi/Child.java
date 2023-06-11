@@ -19,6 +19,7 @@ public class Child extends Tamagochi{
     @Override
     public void Eat() {
         this.eatTime++;
+        this.hasEaten = true;
         System.out.println("Eggs can eat!");
     };
 
@@ -29,11 +30,13 @@ public class Child extends Tamagochi{
     }
 
     public Tamagochi Live() {
+        this.lifetime++;
         if (this.happiness <= 0) {
             this.isAlive = false;
+            this.status = "dead";
             System.out.println("He died from sadness!");
         }
-        if (this.happiness >= 40 && this.eatTime == 4) {
+        if (this.happiness >= 40 && this.eatTime >= 4) {
             return this.GrowUp();
         }
         if (this.hasEaten) {
@@ -41,6 +44,11 @@ public class Child extends Tamagochi{
             this.isDirty = true;
         } else {
             this.eatTime = 0;
+            this.hunger += 5;
+        }
+
+        if (this.hasAlreadyPlayed == 0) {
+            this.happiness -= 10;
         }
         this.hasAlreadyPlayed = 0;
         return this;

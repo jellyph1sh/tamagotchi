@@ -28,6 +28,7 @@ public class Menu extends Thread {
     private Stage stage;
     public String tamImg; 
     public Tamagochi tam;
+    public Boolean goOut = false;
 
     public Menu(Stage stage, Tamagochi tam) {
         this.stage = stage;
@@ -64,7 +65,7 @@ public class Menu extends Thread {
         /*  <-------------------------------------->  */
 
         /*  <--------------- Stats ---------------->  */
-        HBox statsBox = new HBox();
+        Pane statsBox = new Pane();
         statsBox.getStyleClass().add("stats");
         statsBox.setPrefWidth(400);
         statsBox.setPrefHeight(100);
@@ -76,31 +77,31 @@ public class Menu extends Thread {
 
         HBox hpsBox = new HBox();
         hpsBox.getStyleClass().add("box");
-
+        hpsBox.relocate(300, 50);
         Label hpsLabel = new Label("Happiness : ");
-        Label hpsValue = new Label("0");
+        Label hpsValue = new Label(""+tam.getHappiness());
         hpsBox.getChildren().addAll(hpsLabel, hpsValue);
 
 
         HBox hungerBox = new HBox();
         hungerBox.getStyleClass().add("box");
-
+        hungerBox.relocate(165, 5);
         Label hungerLabel = new Label("Hunger : ");
-        Label hungerValue = new Label("0");
+        Label hungerValue = new Label(""+tam.getHunger());
         hungerBox.getChildren().addAll(hungerLabel, hungerValue);
 
         HBox dirtyBox = new HBox();
         dirtyBox.getStyleClass().add("box");
-
+        dirtyBox.relocate(160, 35);
         Label dirtyLabel = new Label("IsDirty : ");
-        Label dirtyValue = new Label("NO");
+        Label dirtyValue = new Label(""+tam.getIsDirty());
         dirtyBox.getChildren().addAll(dirtyLabel, dirtyValue);
 
         HBox lifeTimeBox = new HBox();
         lifeTimeBox.getStyleClass().add("box");
-
+        lifeTimeBox.relocate(20, 50);
         Label lifeTimeLabel = new Label("Life Time : ");
-        Label lifeTimeValue = new Label("0");
+        Label lifeTimeValue = new Label(""+tam.getLifetime());
         lifeTimeBox.getChildren().addAll(lifeTimeLabel, lifeTimeValue);
         
 
@@ -110,9 +111,9 @@ public class Menu extends Thread {
         /*  <------------- Tamagochi -------------->  */
         HBox tamagochiBox = new HBox();
         tamagochiBox.getStyleClass().add("tamagochiBox");
-        if ("oldMan".equals(this.tamImg)) {
+        if ("oldMan".equals(tam.status)) {
             tamagochiBox.relocate(-30, 50);
-        } else if ("baby".equals(this.tamImg)) {
+        } else if ("baby".equals(tam.status)) {
             tamagochiBox.relocate(190, 220);
         } else {
             tamagochiBox.relocate(170, 190);
@@ -122,6 +123,19 @@ public class Menu extends Thread {
         
         tamagochiBox.getChildren().add(tamagochiView);
         /*  <-------------------------------------->  */
+
+        /*  <---------------- Exit ---------------->  */
+        Pane exit = new Pane();
+        exit.getStyleClass().add("test");
+        exit.setPrefSize(87,75);
+        exit.relocate(160, 62);
+        exit.onMouseClickedProperty().set((e) -> {
+            this.goOut = true;
+        });
+        /*  <-------------------------------------->  */
+
+
+
 
         /*  <--------------- Games ---------------->  */
         Pane pc = new Pane();
@@ -133,7 +147,7 @@ public class Menu extends Thread {
         });
         /*  <-------------------------------------->  */
         
-        mainVbox.getChildren().addAll(background, tamagochiBox, statsBox, pc);
+        mainVbox.getChildren().addAll(background, tamagochiBox, statsBox, pc, exit);
         /*------------------------------------------- */
         Scene mainScene = new Scene(mainVbox, 400, 400);
         mainScene.getStylesheets().add(getClass().getResource("css/main.css").toExternalForm());
@@ -217,54 +231,8 @@ public class Menu extends Thread {
 
         menu.getChildren().addAll(title, play, eat, wash);
         /*  <-------------------------------------->  */
-
-        /*  <--------------- Stats ---------------->  */
-        HBox statsBox = new HBox();
-        statsBox.getStyleClass().add("stats");
-        statsBox.setPrefWidth(400);
-        statsBox.setPrefHeight(100);
-        statsBox.relocate(0, 0);
-
-        // Add les image plus tard
-        // Image happinessBar = new Image(getClass().getResource("img/HappinessBar.png").toExternalForm());
-        // ImageView hpsBarView = new ImageView(happinessBar);
-
-        HBox hpsBox = new HBox();
-        hpsBox.getStyleClass().add("box");
-
-        Label hpsLabel = new Label("Happiness : ");
-        Label hpsValue = new Label("0");
-        hpsBox.getChildren().addAll(hpsLabel, hpsValue);
-
-
-        HBox hungerBox = new HBox();
-        hungerBox.getStyleClass().add("box");
-
-        Label hungerLabel = new Label("Hunger : ");
-        Label hungerValue = new Label("0");
-        hungerBox.getChildren().addAll(hungerLabel, hungerValue);
-
-        HBox dirtyBox = new HBox();
-        dirtyBox.getStyleClass().add("box");
-
-        Label dirtyLabel = new Label("IsDirty : ");
-        Label dirtyValue = new Label("NO");
-        dirtyBox.getChildren().addAll(dirtyLabel, dirtyValue);
-
-        HBox lifeTimeBox = new HBox();
-        lifeTimeBox.getStyleClass().add("box");
-
-        Label lifeTimeLabel = new Label("Life Time : ");
-        Label lifeTimeValue = new Label("0");
-        lifeTimeBox.getChildren().addAll(lifeTimeLabel, lifeTimeValue);
         
-
-        statsBox.getChildren().addAll(hpsBox, hungerBox, dirtyBox, lifeTimeBox);
-        /*  <-------------------------------------->  */
-        
-
-
-        mainBox.getChildren().addAll(background, menu, statsBox);
+        mainBox.getChildren().addAll(background, menu);
         /*------------------------------------------- */
 
         Scene mainScene = new Scene(mainBox, 400, 400);

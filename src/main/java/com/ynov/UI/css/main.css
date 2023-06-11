@@ -12,6 +12,10 @@
     -fx-padding:10;
 }
 
+.box Label {
+    -fx-text-fill: #ffffff;
+}
+
 .menu {
     -fx-background-color: #32566f;
     -fx-border-radius: 15px;

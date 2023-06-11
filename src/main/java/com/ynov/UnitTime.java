@@ -1,5 +1,9 @@
 package com.ynov;
 
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.IOException;
+import java.io.ObjectOutputStream;
 import java.sql.Time;
 import java.util.concurrent.TimeUnit;
 
@@ -7,8 +11,11 @@ import com.ynov.UI.Menu;
 import com.ynov.tamagochi.Tamagochi;
 
 import javafx.application.Platform;
+import java.nio.file.Path;
+
 
 public class UnitTime extends Thread{
+    private Path DB_PATH = Path.of("./save/save.csv");
     private Tamagochi tam;
     private Menu menu;
     private long timeVal;
@@ -21,7 +28,7 @@ public class UnitTime extends Thread{
 
     public void thread() {
         new Thread(() -> {
-            while (!this.tam.isAlive()) {
+            while (this.tam.isAlive && !this.menu.goOut) {
                 Platform.runLater(() -> {
                     this.menu.ShowMenus(this.tam);
                 });
@@ -30,15 +37,36 @@ public class UnitTime extends Thread{
                 } catch(InterruptedException e) {
                     System.out.println(e);
                 }
-                System.out.println(this.tam.status + ": "+this.tam.getLifetime() + " " +this.tam.getHappiness() + " " + this.tam.getHunger() + " ");
-                Platform.runLater(() -> {
-                    Tamagochi newTam = this.tam.Live();
-                    if (newTam.status != this.tam.status) {
-                        this.tam = newTam;
+                if (this.menu.goOut) {
+                    System.out.println("serializbale");
+                    try {
+                        this.serialize();
+                    } catch (IOException e) {
+                        System.out.println(e);
                     }
-                });
+                } else {
+                    System.out.println(this.tam.status + ": "+this.tam.getLifetime() + " " +this.tam.getHappiness() + " " + this.tam.getHunger() + " " + this.tam.isAlive);
+                    Platform.runLater(() -> {
+                        Tamagochi newTam = this.tam.Live();
+                        if (newTam.status != this.tam.status) {
+                            this.tam = newTam;
+                        }
+                    });
+                }
             }
         }).start();
+
+    }
+
+    private void serialize() throws IOException {
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        ObjectOutputStream outputStream = new ObjectOutputStream(baos);
+        outputStream.writeObject(this.tam);
+        byte[] data = baos.toByteArray();
+        baos.close();
+        outputStream.close();
+        File.write(DB_PATH,data);
+
     }
 
     // public void run() {

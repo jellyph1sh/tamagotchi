@@ -33,8 +33,10 @@ public class OldMan extends Tamagochi {
     }
 
     public Tamagochi Live() {
+        this.lifetime++;
         if (this.happiness <= 0) {
             this.isAlive = false;
+            this.status = "dead";
             System.out.println("He died from sadness!");
         }
         if (isSick){
