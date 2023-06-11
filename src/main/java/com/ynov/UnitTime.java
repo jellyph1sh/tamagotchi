@@ -1,8 +1,10 @@
 package com.ynov;
 
+import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
+import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.sql.Time;
 import java.util.concurrent.TimeUnit;
@@ -11,6 +13,8 @@ import com.ynov.UI.Menu;
 import com.ynov.tamagochi.Tamagochi;
 
 import javafx.application.Platform;
+
+import java.nio.file.Files;
 import java.nio.file.Path;
 
 
@@ -65,8 +69,24 @@ public class UnitTime extends Thread{
         byte[] data = baos.toByteArray();
         baos.close();
         outputStream.close();
-        File.write(DB_PATH,data);
+        Files.write(DB_PATH,data);
+    }
 
+    private void loadSave() throws IOException {
+        if(!Files.exists(DB_PATH)){
+            return;
+        }
+        byte[] data = Files.readAllBytes(DB_PATH);
+        ByteArrayInputStream bais = new ByteArrayInputStream(data);
+        ObjectInputStream inputStream = new ObjectInputStream(bais);
+        try{
+        Tamagochi tam = (Tamagochi) inputStream.readObject();
+        }
+        catch(ClassNotFoundException e){
+        }
+        catch(IOException e){
+        }
+        this.tam = tam;
     }
 
     // public void run() {
