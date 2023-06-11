@@ -76,5 +76,9 @@ public abstract class Tamagochi extends Thread implements Serializable{
         }
     }
 
+    public void Heal() {
+        System.out.println("He isn't sick");
+    }
+
     abstract public Tamagochi Live();
 }
