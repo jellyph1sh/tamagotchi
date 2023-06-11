@@ -38,12 +38,7 @@ public class UnitTime extends Thread{
                     System.out.println(e);
                 }
                 if (this.menu.goOut) {
-                    System.out.println("serializbale");
-                    try {
-                        this.serialize();
-                    } catch (IOException e) {
-                        System.out.println(e);
-                    }
+                    System.out.println("serializbale, it's not available right now");
                 } else {
                     System.out.println(this.tam.status + ": "+this.tam.getLifetime() + " " +this.tam.getHappiness() + " " + this.tam.getHunger() + " " + this.tam.isAlive);
                     Platform.runLater(() -> {
@@ -55,17 +50,6 @@ public class UnitTime extends Thread{
                 }
             }
         }).start();
-
-    }
-
-    private void serialize() throws IOException {
-        ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        ObjectOutputStream outputStream = new ObjectOutputStream(baos);
-        outputStream.writeObject(this.tam);
-        byte[] data = baos.toByteArray();
-        baos.close();
-        outputStream.close();
-        File.write(DB_PATH,data);
 
     }
 
