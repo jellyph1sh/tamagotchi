@@ -1,23 +1,28 @@
 package com.ynov.tamagochi;
 
-public abstract class Tamagochi {
+import java.io.Serializable;
+
+import com.ynov.UI.Menu;
+
+public abstract class Tamagochi extends Thread implements Serializable{
     protected Boolean hasEaten = false;
     protected long baseTimestamp;
     protected long lifetime;
     protected Integer happiness = 15;
     protected Integer hasAlreadyPlayed = 0;
-    protected Integer unitTime = 1;
+    protected long unitTime = 1;
     protected Integer hunger = 5;
     protected Boolean isDirty = false;
-    protected Boolean isAlive = true;
+    public Boolean isAlive = true;
+    public String status;
     
-    Tamagochi(Integer unitTime){
+    Tamagochi(long unitTime){
         this.unitTime = unitTime;
     }
 
     abstract Tamagochi GrowUp();
 
-    public Integer getLifetime(){
+    public long getLifetime(){
         return lifetime;
     }
 
@@ -35,12 +40,21 @@ public abstract class Tamagochi {
     public Boolean getIsDirty(){
         return isDirty;
     }
-    protected void Eat() {
+
+    public void setHappiness(int val) {
+        this.happiness = val;
+    }
+
+    public void setHunger(int val) {
+        this.hunger = val;
+    }
+
+    public void Eat() {
         this.hasEaten = true;
         System.out.println("Your tamagochi has eaten!");
     };
 
-    protected void Play(){
+    public void Play(){
         if (this.hasAlreadyPlayed < 3) {
             this.happiness += 3;
             if(this.happiness > 50){
@@ -53,7 +67,7 @@ public abstract class Tamagochi {
         }
     }
 
-    protected void CleanUp(){
+    public void CleanUp(){
         if (isDirty){
             this.isDirty = false;
             System.out.println("The tamagotchi is clean!");
@@ -62,5 +76,5 @@ public abstract class Tamagochi {
         }
     }
 
-    abstract void Live();
+    abstract public Tamagochi Live();
 }

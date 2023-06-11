@@ -2,17 +2,24 @@ package com.ynov.tamagochi;
 
 import java.time.Instant;
 import java.util.Random;
+import java.util.concurrent.TimeUnit;
+
+import com.ynov.UI.Menu;
 
 public class OldMan extends Tamagochi {
     protected Boolean isSick = false;
-    public OldMan(Integer unitTime) {
+    public Boolean isDead = false;
+    private long birthLifeTime = 0;  
+    public OldMan(long unitTime) {
         super(unitTime);
-        this.Live();
+        this.status = "oldMan";
     }
 
     @Override
     protected Tamagochi GrowUp(){
         System.out.println("Die");
+        this.isDead = true;
+        this.status = "dead";
         return null;
     }    
 
@@ -25,28 +32,31 @@ public class OldMan extends Tamagochi {
         }
     }
 
-    public void Live() {
-        Boolean isGrowing = false;
-        this.baseTimestamp = Instant.now().toEpochMilli();
-        while (isAlive && !isGrowing) {
-            this.lifetime = Instant.now().toEpochMilli();
-            if (this.happiness <= 0) {
-                this.isAlive = false;
-                System.out.println("He died from sadness!");
-            }
-            if (isSick){
-                isAlive = false;
-                System.out.println("He died from sick!");
-            }
-            Random rand = new Random();
-            int randomNumber = rand.nextInt(2);
-            if (randomNumber == 0){
-                this.isSick = true;
-            }
-            if (((this.lifetime/1000*this.unitTime) - (this.baseTimestamp/1000*this.unitTime)) >= 5) {
-                this.GrowUp();
-                isGrowing = true;
-            }
+    public Tamagochi Live() {
+        this.lifetime++;
+        if (this.happiness <= 0) {
+            this.isAlive = false;
+            this.status = "dead";
+            System.out.println("He died from sadness!");
         }
+        if (isSick){
+            isAlive = false;
+            System.out.println("He died from sick!");
+        }
+        Random rand = new Random();
+        int randomNumber = rand.nextInt(2);
+        if (randomNumber == 0){
+            this.isSick = true;
+        }
+        if (this.birthLifeTime >= 5) {
+            return this.GrowUp();
+        } else {
+            this.birthLifeTime++;
+        }
+        if (this.hasEaten) {
+            this.isDirty = true;
+        }
+        this.hasAlreadyPlayed = 0;
+        return this;
     }
 }

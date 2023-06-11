@@ -1,27 +1,25 @@
 package com.ynov.tamagochi;
 
 import java.time.Instant;
+import java.util.concurrent.TimeUnit;
+
+import com.ynov.UI.Menu;
 
 public class Child extends Tamagochi{
     Integer eatTime = 0;
     long lastEatTime = 0;
 
-    public Child(Integer unitTime, Integer hunger, Integer happiness) {
+    public Child(long unitTime, Integer hunger, Integer happiness) {
         super(unitTime);
         this.hunger = hunger;
         this.happiness = happiness;
-        this.Live();
+        this.status = "baby";
     }
 
     @Override
-    protected void Eat() {
-        if (this.lastEatTime == 0 || ((this.lastEatTime/1000*this.unitTime) - (Instant.now().toEpochMilli()/1000*this.unitTime) <= 1)) {
-            this.eatTime += 1;
-            this.lastEatTime = Instant.now().toEpochMilli();
-        } else {
-            this.lastEatTime = 0;
-            this.eatTime = 0;
-        }
+    public void Eat() {
+        this.eatTime++;
+        this.hasEaten = true;
         System.out.println("Eggs can eat!");
     };
 
@@ -31,19 +29,28 @@ public class Child extends Tamagochi{
         return new Adult(this.unitTime, this.hunger, this.happiness);
     }
 
-    protected void Live() {
-        Boolean isGrowing = false;
-        this.baseTimestamp = Instant.now().toEpochMilli();
-        while (isAlive && !isGrowing) {
-            this.lifetime = Instant.now().toEpochMilli();
-            if (this.happiness <= 0) {
-                this.isAlive = false;
-                System.out.println("He died from sadness!");
-            }
-            if (this.happiness >= 40 && this.eatTime == 4) {
-                this.GrowUp();
-                isGrowing = true;
-            }
+    public Tamagochi Live() {
+        this.lifetime++;
+        if (this.happiness <= 0) {
+            this.isAlive = false;
+            this.status = "dead";
+            System.out.println("He died from sadness!");
         }
+        if (this.happiness >= 40 && this.eatTime >= 4) {
+            return this.GrowUp();
+        }
+        if (this.hasEaten) {
+            this.eatTime++;
+            this.isDirty = true;
+        } else {
+            this.eatTime = 0;
+            this.hunger += 5;
+        }
+
+        if (this.hasAlreadyPlayed == 0) {
+            this.happiness -= 10;
+        }
+        this.hasAlreadyPlayed = 0;
+        return this;
     }
 }
