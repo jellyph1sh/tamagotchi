@@ -1,23 +1,35 @@
 package com.ynov.tamagochi;
 
+import java.time.Instant;
+import java.util.concurrent.TimeUnit;
+
+import com.ynov.UI.Menu;
+
 public class Egg extends Tamagochi{ 
+  public Egg(long unitTime) {
+    super(unitTime);
+    this.status = "egg";
+  }
 
   @Override
-  protected void Eat() {
-    System.out.println("Eggs doesn't eat");
+  public void Eat() {
+    System.out.println("Eggs can't eat!");
   };
-
   @Override
-  protected void Play(){
-    System.out.println("Eggs can't play");
+  public void Play(){
+    System.out.println("Eggs can't play!");
   }
   @Override
-  protected void CleanUp(){
-    System.out.println("Eggs can't take bath");
+  public void CleanUp(){
+    System.out.println("Eggs can't take bath!");
   }
 
-  protected void GrowUp(){
-    // make a tammagautchy child
-    System.out.println("Become a little man");
+  protected Tamagochi GrowUp(){
+    System.out.println("Become a little man!");
+    return new Child(this.unitTime, this.hunger, this.happiness);
+  }
+
+  public Tamagochi Live()  {
+    return this.GrowUp();
   }
 }

@@ -1,8 +1,48 @@
 package com.ynov.tamagochi;
 
+import java.time.Instant;
+import java.util.concurrent.TimeUnit;
+
+import com.ynov.UI.Menu;
+
 public class Child extends Tamagochi{
+    Integer eatTime = 0;
+    long lastEatTime = 0;
+
+    public Child(long unitTime, Integer hunger, Integer happiness) {
+        super(unitTime);
+        this.hunger = hunger;
+        this.happiness = happiness;
+        this.status = "baby";
+    }
+
     @Override
-    protected void GrowUp(){
-        System.out.println("Become a real man");
+    public void Eat() {
+        this.eatTime++;
+        System.out.println("Eggs can eat!");
+    };
+
+    @Override
+    protected Tamagochi GrowUp() {
+        System.out.println("Become a real man!");
+        return new Adult(this.unitTime, this.hunger, this.happiness);
+    }
+
+    public Tamagochi Live() {
+        if (this.happiness <= 0) {
+            this.isAlive = false;
+            System.out.println("He died from sadness!");
+        }
+        if (this.happiness >= 40 && this.eatTime == 4) {
+            return this.GrowUp();
+        }
+        if (this.hasEaten) {
+            this.eatTime++;
+            this.isDirty = true;
+        } else {
+            this.eatTime = 0;
+        }
+        this.hasAlreadyPlayed = 0;
+        return this;
     }
 }

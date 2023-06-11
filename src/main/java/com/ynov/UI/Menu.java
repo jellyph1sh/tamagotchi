@@ -23,34 +23,35 @@ import javafx.stage.Stage;
 
 import com.ynov.UI.games.Play;
 
-public class Menu {
+public class Menu extends Thread {
     private String currentMenu = "home";
     private Stage stage;
     public String tamImg; 
+    public Tamagochi tam;
 
-    public Menu(Stage stage) {
+    public Menu(Stage stage, Tamagochi tam) {
         this.stage = stage;
-        this.tamImg = "adult";
-    }    
+        this.tamImg = "egg";
+        this.tam = tam;
+    }
 
-    public void ShowMenus() {
-        System.out.print(this.currentMenu);
+    public void ShowMenus(Tamagochi tam) {
         switch (this.currentMenu) {
             case "home": {
                 try {
-                    this.showHome();
+                    this.showHome(tam);
                 } catch (FileNotFoundException e) {
                     System.out.println(e);
                 }
                 break;
             }
             case "gameChoice": {
-                this.showGames();
+                this.showGames(tam);
             }
         }
     }
 
-    private void showHome() throws FileNotFoundException {
+    private void showHome(Tamagochi tam) throws FileNotFoundException {
         Pane mainVbox = new Pane();
         /*------------------ Body ------------------- */
         /*  <------------- Backgroung ------------->  */
@@ -116,8 +117,7 @@ public class Menu {
         } else {
             tamagochiBox.relocate(170, 190);
         }
-
-        Image tamagochiImage = new Image(getClass().getResource("img/"+this.tamImg+".png").toExternalForm());
+        Image tamagochiImage = new Image(getClass().getResource("img/"+tam.status+".png").toExternalForm());
         ImageView tamagochiView = new ImageView(tamagochiImage);
         
         tamagochiBox.getChildren().add(tamagochiView);
@@ -129,7 +129,7 @@ public class Menu {
         pc.relocate(97, 150);
         pc.onMouseClickedProperty().set((e) -> {
             this.currentMenu = "gameChoice";
-            this.ShowMenus();
+            this.ShowMenus(tam);
         });
         /*  <-------------------------------------->  */
         
@@ -141,7 +141,7 @@ public class Menu {
         stage.show();
     }
 
-    private void showGames() {
+    private void showGames(Tamagochi tam) {
         Pane mainBox = new Pane();
         /* ------------------ Body ------------------ */
 
@@ -164,6 +164,18 @@ public class Menu {
         title.setFont(new Font(30));
         title.relocate(55, 10);
 
+        HBox leave = new HBox();
+        leave.relocate(0, 0);
+        Label leaveText = new Label("Leave");
+        leaveText.setFont(new Font(24));
+        leave.getChildren().add(leaveText);
+        leave.getStyleClass().add("button");
+        leave.setPrefSize(100, 50);
+        leave.onMouseClickedProperty().set((e) -> {
+            this.currentMenu = "home";
+        });
+
+
         HBox play = new HBox();
         play.relocate(50, 80);
         Label playText = new Label("PLAY");
@@ -172,12 +184,9 @@ public class Menu {
         play.getStyleClass().add("button");
         play.setPrefSize(100, 50);
         play.onMouseClickedProperty().set((e) -> {
-            this.currentMenu = "play";
-            PlayView gameView = new PlayView();
-            Play game = new Play();
-            System.out.print("WOOOOOOOOOOOOW");
-            gameView.run(stage);
-            game.run();
+            tam.Play();
+            this.currentMenu = "home";
+            this.ShowMenus(tam);
         });
 
         HBox eat = new HBox();
@@ -188,8 +197,9 @@ public class Menu {
         eat.getStyleClass().add("button");
         eat.setPrefSize(100, 50);
         eat.onMouseClickedProperty().set((e) -> {
-            this.currentMenu = "eat";
-            this.ShowMenus();
+            tam.Eat();
+            this.currentMenu = "home";
+            this.ShowMenus(tam);
         });
 
         HBox wash = new HBox();
@@ -200,8 +210,9 @@ public class Menu {
         wash.getStyleClass().add("button");
         wash.setPrefSize(100, 50);
         wash.onMouseClickedProperty().set((e) -> {
-            this.currentMenu = "wash";
-            this.ShowMenus();
+            tam.CleanUp();
+            this.currentMenu = "home";
+            this.ShowMenus(tam);
         });
 
         menu.getChildren().addAll(title, play, eat, wash);
