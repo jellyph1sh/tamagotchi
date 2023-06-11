@@ -7,7 +7,7 @@ import java.util.concurrent.TimeUnit;
 import com.ynov.UI.Menu;
 
 public class OldMan extends Tamagochi {
-    protected Boolean isSick = false;
+    public Boolean isSick = false;
     public Boolean isDead = false;
     private long birthLifeTime = 0;  
     public OldMan(long unitTime) {
@@ -24,7 +24,8 @@ public class OldMan extends Tamagochi {
         return null;
     }    
 
-    protected void Heal(){
+    @Override
+    public void Heal() {
         if (isSick){
             this.isSick = false;
             System.out.println("Old tamagotchi is no longer ill!");

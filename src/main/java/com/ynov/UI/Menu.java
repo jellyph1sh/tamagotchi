@@ -229,6 +229,19 @@ public class Menu extends Thread {
             this.ShowMenus(tam);
         });
 
+        HBox heal = new HBox();
+        heal.relocate(50, 220);
+        Label healText = new Label("HEAL");
+        healText.setFont(new Font(24));
+        heal.getChildren().add(healText);
+        heal.getStyleClass().add("button");
+        heal.setPrefSize(100, 50);
+        heal.onMouseClickedProperty().set((e) -> {
+            tam.Heal();
+            this.currentMenu = "home";
+            this.ShowMenus(tam);
+        });
+
         menu.getChildren().addAll(title, play, eat, wash);
         /*  <-------------------------------------->  */
         
