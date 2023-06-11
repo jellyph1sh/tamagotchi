@@ -19,6 +19,7 @@ public class OldMan extends Tamagochi {
     protected Tamagochi GrowUp(){
         System.out.println("Die");
         this.isDead = true;
+        this.isAlive = false;
         this.status = "dead";
         return null;
     }    
