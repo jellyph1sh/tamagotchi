@@ -10,16 +10,18 @@ import java.sql.Time;
 import java.util.concurrent.TimeUnit;
 
 import com.ynov.UI.Menu;
+import com.ynov.tamagochi.Egg;
 import com.ynov.tamagochi.Tamagochi;
 
 import javafx.application.Platform;
 
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.Paths;
 
 
 public class UnitTime extends Thread{
-    private Path DB_PATH = Path.of("./save/save.csv");
+    public static Path DB_PATH = Paths.get("./save.csv");
     private Tamagochi tam;
     private Menu menu;
     private long timeVal;
@@ -31,6 +33,13 @@ public class UnitTime extends Thread{
     }
 
     public void thread() {
+        if(Files.exists(DB_PATH)){
+            try {
+                this.tam = loadSave() ;
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
         new Thread(() -> {
             while (this.tam.isAlive && !this.menu.goOut) {
                 Platform.runLater(() -> {
@@ -72,33 +81,16 @@ public class UnitTime extends Thread{
         Files.write(DB_PATH,data);
     }
 
-    private void loadSave() throws IOException {
-        if(!Files.exists(DB_PATH)){
-            return;
-        }
+    public static Tamagochi loadSave() throws IOException {
         byte[] data = Files.readAllBytes(DB_PATH);
         ByteArrayInputStream bais = new ByteArrayInputStream(data);
         ObjectInputStream inputStream = new ObjectInputStream(bais);
+        Tamagochi tam = null;
         try{
-        Tamagochi tam = (Tamagochi) inputStream.readObject();
+            tam = (Tamagochi) inputStream.readObject();
+        }catch(ClassNotFoundException e){
+        }catch(IOException e){
         }
-        catch(ClassNotFoundException e){
-        }
-        catch(IOException e){
-        }
-        this.tam = tam;
+        return tam;
     }
-
-    // public void run() {
-    //     this.menu.ShowMenus();
-    //     while (true) {
-    //         System.out.print("gzonao");
-    //         this.tam.Live();
-    //         try {
-    //             TimeUnit.SECONDS.sleep(this.timeVal);
-    //         } catch (InterruptedException e) {
-    //             System.out.println(e);
-    //         }
-    //     }
-    // }
 }

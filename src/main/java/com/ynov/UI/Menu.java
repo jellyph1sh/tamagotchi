@@ -126,7 +126,6 @@ public class Menu extends Thread {
 
         /*  <---------------- Exit ---------------->  */
         Pane exit = new Pane();
-        exit.getStyleClass().add("test");
         exit.setPrefSize(87,75);
         exit.relocate(160, 62);
         exit.onMouseClickedProperty().set((e) -> {
